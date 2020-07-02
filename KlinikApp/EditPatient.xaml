@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="KlinikApp.EditPatient"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KlinikApp"
+             xmlns:localv="clr-namespace:KlinikApp.ViewModel"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="vm" ObjectType="{x:Type localv:VMPatientList}"/>
+    </UserControl.Resources>
+    <Grid DataContext="{Binding Source={StaticResource vm}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Patients"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Patient details"/>
+        <ListBox Grid.Row="1" Grid.Column="0" 
+                 ItemsSource="{Binding Path=AllPatients}" 
+                 SelectedItem="{Binding Path=SelectedPatient, Mode=OneWayToSource, BindsDirectlyToSource=True}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding Path=P_Lastname}" FontWeight="Bold" />
+                        <Run Text="{Binding Path=P_Firstname}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row="1" Grid.Column="1" >
+            <StackPanel DataContext="{Binding Path=SelectedPatient}">
+                <TextBlock Text="Lastname" Margin="3"/>
+                <TextBlock Text="{Binding Path=P_Lastname}" FontWeight="Bold" Margin="3"/>
+                <TextBlock Text="Firstname" Margin="3"/>
+                <TextBlock Text="{Binding Path=P_Firstname}" FontWeight="Bold" Margin="3"/>
+                <TextBlock Text="Birthday" Margin="3"/>
+                <TextBlock Text="{Binding Path=P_Birthday, StringFormat=dd.MM.yyyy}" FontWeight="Bold" Margin="3"/>
+                <TextBlock Text="Address" Margin="3"/>
+                <TextBlock Text="{Binding Path=P_Address}" FontWeight="Bold" Margin="3"/>
+                <TextBlock Text="Postalcode" Margin="3"/>
+                <TextBlock Text="{Binding Path=P_Plz}" FontWeight="Bold" Margin="3"/>
+                <TextBlock Text="Bundesland" Margin="3"/>
+                <TextBlock Text="{Binding Path=Bundesland.B_Name}" FontWeight="Bold" Margin="3"/>
+            </StackPanel>
+            <Button Margin="4" Command="{Binding Path=NewPatientCommand}">New</Button>
+            <Button Margin="4" Command="{Binding Path=EditCommand}">Edit</Button>
+            <Button Margin="4" Command="{Binding Path=DeleteCommand}">Delete</Button>
+            <TextBlock x:Name="info" Foreground="Red"/>
+        </StackPanel> 
+    </Grid>
+</UserControl>

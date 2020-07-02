@@ -1,0 +1,46 @@
+﻿<Window x:Class="KlinikApp.ExamView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:model="clr-namespace:KlinikApp.ViewModel"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Title="Exam" Height="500" Width="300">
+    <Window.Resources>
+        <!--Datacontext im code gesetzt auf vmexamedit-->
+        <ObjectDataProvider x:Key="vm" ObjectType="{x:Type model:VMExamEdit}" />
+    </Window.Resources>
+    <StackPanel>
+        <TextBlock Text="{Binding  Path=HeaderText}" FontSize="25" Foreground="Chocolate" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding Path=Ex.Exty_Name}"/>
+        <TextBlock Text="Patient" />
+        <TextBlock Text="{Binding Path=Ex.Ex_Patient}" FontWeight="Bold"/>
+        
+        <TextBlock Text="Examination" />
+        <ComboBox x:Name="CbExam"
+                  SelectedValue="{Binding Path=Ex.Ex_Exam}"
+                  ItemsSource="{Binding AllExams}"
+                  DisplayMemberPath="Exty_Name"
+                  SelectedValuePath="Exty_Id"/>
+
+        <TextBlock Text="Klinik" />
+        <ComboBox x:Name="CbKlinik"
+                  SelectedValue="{Binding Path=Ex.Ex_Klinik}"
+                  ItemsSource="{Binding AllKliniks}"
+                  DisplayMemberPath="K_Id"
+                  SelectedValuePath="K_Id"  />
+
+        <TextBlock Text="Employee" />
+        <ComboBox x:Name="CbEmp" 
+                  SelectedValue="{Binding Path=Ex.Ex_Employee}"
+                  ItemsSource="{Binding ElementName=CbKlinik, Path=SelectedItem.Employees}"
+                  DisplayMemberPath="Emp_Id"
+                  SelectedValuePath="Emp_Id"  />
+        <TextBlock Text="Date"/>
+        <DatePicker x:Name="DpDate" SelectedDate="{Binding Path=Ex.Ex_Date}"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="Save" IsDefault="True"  Content="Speichern"  Margin="4" Click="Save_Click"/>
+            <Button x:Name="Cancel" IsCancel="True"  Margin="4" Content="Abbruch"/>
+        </StackPanel>
+        <TextBlock x:Name="Error" Text="" Foreground="Red"/>
+    </StackPanel>
+</Window>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="KlinikDbModelStoreContainer" CdmEntityContainer="KlinikDbEntities">
+    <EntitySetMapping Name="Bundeslands">
+      <EntityTypeMapping TypeName="KlinikDbModel.Bundesland">
+        <MappingFragment StoreEntitySet="Bundesland">
+          <ScalarProperty Name="B_Id" ColumnName="B_Id" />
+          <ScalarProperty Name="B_Name" ColumnName="B_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="KlinikDbModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+          <ScalarProperty Name="Emp_Lastname" ColumnName="Emp_Lastname" />
+          <ScalarProperty Name="Emp_Firstname" ColumnName="Emp_Firstname" />
+          <ScalarProperty Name="Emp_Birthday" ColumnName="Emp_Birthday" />
+          <ScalarProperty Name="Emp_Address" ColumnName="Emp_Address" />
+          <ScalarProperty Name="Emp_Plz" ColumnName="Emp_Plz" />
+          <ScalarProperty Name="Emp_Salary" ColumnName="Emp_Salary" />
+          <ScalarProperty Name="Emp_Bundesland" ColumnName="Emp_Bundesland" />
+          <ScalarProperty Name="Emp_Klinik" ColumnName="Emp_Klinik" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Examinations">
+      <EntityTypeMapping TypeName="KlinikDbModel.Examination">
+        <MappingFragment StoreEntitySet="Examination">
+          <ScalarProperty Name="Ex_Id" ColumnName="Ex_Id" />
+          <ScalarProperty Name="Ex_Exam" ColumnName="Ex_Exam" />
+          <ScalarProperty Name="Ex_Date" ColumnName="Ex_Date" />
+          <ScalarProperty Name="Ex_Patient" ColumnName="Ex_Patient" />
+          <ScalarProperty Name="Ex_Employee" ColumnName="Ex_Employee" />
+          <ScalarProperty Name="Ex_Klinik" ColumnName="Ex_Klinik" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Examtypes">
+      <EntityTypeMapping TypeName="KlinikDbModel.Examtype">
+        <MappingFragment StoreEntitySet="Examtype">
+          <ScalarProperty Name="Exty_Id" ColumnName="Exty_Id" />
+          <ScalarProperty Name="Exty_Name" ColumnName="Exty_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kliniks">
+      <EntityTypeMapping TypeName="KlinikDbModel.Klinik">
+        <MappingFragment StoreEntitySet="Klinik">
+          <ScalarProperty Name="K_Id" ColumnName="K_Id" />
+          <ScalarProperty Name="K_Address" ColumnName="K_Address" />
+          <ScalarProperty Name="K_Plz" ColumnName="K_Plz" />
+          <ScalarProperty Name="K_Ort" ColumnName="K_Ort" />
+          <ScalarProperty Name="K_Bundesland" ColumnName="K_Bundesland" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Patients">
+      <EntityTypeMapping TypeName="KlinikDbModel.Patient">
+        <MappingFragment StoreEntitySet="Patient">
+          <ScalarProperty Name="Pat_Id" ColumnName="Pat_Id" />
+          <ScalarProperty Name="P_Lastname" ColumnName="P_Lastname" />
+          <ScalarProperty Name="P_Firstname" ColumnName="P_Firstname" />
+          <ScalarProperty Name="P_Birthday" ColumnName="P_Birthday" />
+          <ScalarProperty Name="P_Address" ColumnName="P_Address" />
+          <ScalarProperty Name="P_Plz" ColumnName="P_Plz" />
+          <ScalarProperty Name="P_Bundesland" ColumnName="P_Bundesland" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

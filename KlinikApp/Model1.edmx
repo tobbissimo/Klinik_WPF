@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="KlinikDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bundesland">
+          <Key>
+            <PropertyRef Name="B_Id" />
+          </Key>
+          <Property Name="B_Id" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="B_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Emp_Id" />
+          </Key>
+          <Property Name="Emp_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Emp_Lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Emp_Firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Emp_Birthday" Type="datetime" Nullable="false" />
+          <Property Name="Emp_Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Emp_Plz" Type="int" Nullable="false" />
+          <Property Name="Emp_Salary" Type="int" Nullable="false" />
+          <Property Name="Emp_Bundesland" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="Emp_Klinik" Type="nvarchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Examination">
+          <Key>
+            <PropertyRef Name="Ex_Id" />
+          </Key>
+          <Property Name="Ex_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ex_Exam" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Ex_Date" Type="datetime" Nullable="false" />
+          <Property Name="Ex_Patient" Type="int" Nullable="false" />
+          <Property Name="Ex_Employee" Type="int" Nullable="false" />
+          <Property Name="Ex_Klinik" Type="nvarchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Examtype">
+          <Key>
+            <PropertyRef Name="Exty_Id" />
+          </Key>
+          <Property Name="Exty_Id" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Exty_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Klinik">
+          <Key>
+            <PropertyRef Name="K_Id" />
+          </Key>
+          <Property Name="K_Id" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="K_Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="K_Plz" Type="int" Nullable="false" />
+          <Property Name="K_Ort" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="K_Bundesland" Type="nvarchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Pat_Id" />
+          </Key>
+          <Property Name="Pat_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="P_Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="P_Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="P_Birthday" Type="datetime" />
+          <Property Name="P_Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="P_Plz" Type="int" />
+          <Property Name="P_Bundesland" Type="nvarchar" MaxLength="2" />
+        </EntityType>
+        <Association Name="FK_Employee_Bundesland">
+          <End Role="Bundesland" Type="Self.Bundesland" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bundesland">
+              <PropertyRef Name="B_Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Emp_Bundesland" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Klinik">
+          <End Role="Klinik" Type="Self.Klinik" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klinik">
+              <PropertyRef Name="K_Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Emp_Klinik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Emp_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Examtype">
+          <End Role="Examtype" Type="Self.Examtype" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Examtype">
+              <PropertyRef Name="Exty_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Exam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Klinik">
+          <End Role="Klinik" Type="Self.Klinik" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klinik">
+              <PropertyRef Name="K_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Klinik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Pat_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Patient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Klinik_Bland">
+          <End Role="Bundesland" Type="Self.Bundesland" Multiplicity="1" />
+          <End Role="Klinik" Type="Self.Klinik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bundesland">
+              <PropertyRef Name="B_Id" />
+            </Principal>
+            <Dependent Role="Klinik">
+              <PropertyRef Name="K_Bundesland" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_Bland">
+          <End Role="Bundesland" Type="Self.Bundesland" Multiplicity="0..1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bundesland">
+              <PropertyRef Name="B_Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="P_Bundesland" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KlinikDbModelStoreContainer">
+          <EntitySet Name="Bundesland" EntityType="Self.Bundesland" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Examination" EntityType="Self.Examination" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Examtype" EntityType="Self.Examtype" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klinik" EntityType="Self.Klinik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Employee_Bundesland" Association="Self.FK_Employee_Bundesland">
+            <End Role="Bundesland" EntitySet="Bundesland" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Klinik" Association="Self.FK_Employee_Klinik">
+            <End Role="Klinik" EntitySet="Klinik" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Employee" Association="Self.FK_Examination_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Examination" EntitySet="Examination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Examtype" Association="Self.FK_Examination_Examtype">
+            <End Role="Examtype" EntitySet="Examtype" />
+            <End Role="Examination" EntitySet="Examination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Klinik" Association="Self.FK_Examination_Klinik">
+            <End Role="Klinik" EntitySet="Klinik" />
+            <End Role="Examination" EntitySet="Examination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Patient" Association="Self.FK_Examination_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Examination" EntitySet="Examination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Klinik_Bland" Association="Self.FK_Klinik_Bland">
+            <End Role="Bundesland" EntitySet="Bundesland" />
+            <End Role="Klinik" EntitySet="Klinik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_Bland" Association="Self.FK_Patient_Bland">
+            <End Role="Bundesland" EntitySet="Bundesland" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KlinikDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bundesland">
+          <Key>
+            <PropertyRef Name="B_Id" />
+          </Key>
+          <Property Name="B_Id" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="B_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Bundesland" FromRole="Bundesland" ToRole="Employee" />
+          <NavigationProperty Name="Kliniks" Relationship="Self.FK_Klinik_Bland" FromRole="Bundesland" ToRole="Klinik" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Patient_Bland" FromRole="Bundesland" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Emp_Id" />
+          </Key>
+          <Property Name="Emp_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Emp_Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Emp_Birthday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Emp_Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Emp_Plz" Type="Int32" Nullable="false" />
+          <Property Name="Emp_Salary" Type="Int32" Nullable="false" />
+          <Property Name="Emp_Bundesland" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Emp_Klinik" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Bundesland" Relationship="Self.FK_Employee_Bundesland" FromRole="Employee" ToRole="Bundesland" />
+          <NavigationProperty Name="Klinik" Relationship="Self.FK_Employee_Klinik" FromRole="Employee" ToRole="Klinik" />
+          <NavigationProperty Name="Examinations" Relationship="Self.FK_Examination_Employee" FromRole="Employee" ToRole="Examination" />
+        </EntityType>
+        <EntityType Name="Examination">
+          <Key>
+            <PropertyRef Name="Ex_Id" />
+          </Key>
+          <Property Name="Ex_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ex_Exam" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ex_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Ex_Patient" Type="Int32" Nullable="false" />
+          <Property Name="Ex_Employee" Type="Int32" Nullable="false" />
+          <Property Name="Ex_Klinik" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Examination_Employee" FromRole="Examination" ToRole="Employee" />
+          <NavigationProperty Name="Examtype" Relationship="Self.FK_Examination_Examtype" FromRole="Examination" ToRole="Examtype" />
+          <NavigationProperty Name="Klinik" Relationship="Self.FK_Examination_Klinik" FromRole="Examination" ToRole="Klinik" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK_Examination_Patient" FromRole="Examination" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Examtype">
+          <Key>
+            <PropertyRef Name="Exty_Id" />
+          </Key>
+          <Property Name="Exty_Id" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Exty_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Examinations" Relationship="Self.FK_Examination_Examtype" FromRole="Examtype" ToRole="Examination" />
+        </EntityType>
+        <EntityType Name="Klinik">
+          <Key>
+            <PropertyRef Name="K_Id" />
+          </Key>
+          <Property Name="K_Id" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="K_Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="K_Plz" Type="Int32" Nullable="false" />
+          <Property Name="K_Ort" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="K_Bundesland" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Bundesland" Relationship="Self.FK_Klinik_Bland" FromRole="Klinik" ToRole="Bundesland" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Klinik" FromRole="Klinik" ToRole="Employee" />
+          <NavigationProperty Name="Examinations" Relationship="Self.FK_Examination_Klinik" FromRole="Klinik" ToRole="Examination" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Pat_Id" />
+          </Key>
+          <Property Name="Pat_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="P_Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="P_Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="P_Birthday" Type="DateTime" Precision="3" />
+          <Property Name="P_Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="P_Plz" Type="Int32" />
+          <Property Name="P_Bundesland" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bundesland" Relationship="Self.FK_Patient_Bland" FromRole="Patient" ToRole="Bundesland" />
+          <NavigationProperty Name="Examinations" Relationship="Self.FK_Examination_Patient" FromRole="Patient" ToRole="Examination" />
+        </EntityType>
+        <Association Name="FK_Employee_Bundesland">
+          <End Role="Bundesland" Type="Self.Bundesland" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bundesland">
+              <PropertyRef Name="B_Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Emp_Bundesland" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Klinik_Bland">
+          <End Role="Bundesland" Type="Self.Bundesland" Multiplicity="1" />
+          <End Role="Klinik" Type="Self.Klinik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bundesland">
+              <PropertyRef Name="B_Id" />
+            </Principal>
+            <Dependent Role="Klinik">
+              <PropertyRef Name="K_Bundesland" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_Bland">
+          <End Role="Bundesland" Type="Self.Bundesland" Multiplicity="0..1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bundesland">
+              <PropertyRef Name="B_Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="P_Bundesland" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Klinik">
+          <End Role="Klinik" Type="Self.Klinik" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klinik">
+              <PropertyRef Name="K_Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Emp_Klinik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Emp_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Examtype">
+          <End Role="Examtype" Type="Self.Examtype" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Examtype">
+              <PropertyRef Name="Exty_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Exam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Klinik">
+          <End Role="Klinik" Type="Self.Klinik" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klinik">
+              <PropertyRef Name="K_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Klinik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Examination_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="Examination" Type="Self.Examination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Pat_Id" />
+            </Principal>
+            <Dependent Role="Examination">
+              <PropertyRef Name="Ex_Patient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KlinikDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bundeslands" EntityType="Self.Bundesland" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Examinations" EntityType="Self.Examination" />
+          <EntitySet Name="Examtypes" EntityType="Self.Examtype" />
+          <EntitySet Name="Kliniks" EntityType="Self.Klinik" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <AssociationSet Name="FK_Employee_Bundesland" Association="Self.FK_Employee_Bundesland">
+            <End Role="Bundesland" EntitySet="Bundeslands" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Klinik_Bland" Association="Self.FK_Klinik_Bland">
+            <End Role="Bundesland" EntitySet="Bundeslands" />
+            <End Role="Klinik" EntitySet="Kliniks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_Bland" Association="Self.FK_Patient_Bland">
+            <End Role="Bundesland" EntitySet="Bundeslands" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Klinik" Association="Self.FK_Employee_Klinik">
+            <End Role="Klinik" EntitySet="Kliniks" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Employee" Association="Self.FK_Examination_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Examination" EntitySet="Examinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Examtype" Association="Self.FK_Examination_Examtype">
+            <End Role="Examtype" EntitySet="Examtypes" />
+            <End Role="Examination" EntitySet="Examinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Klinik" Association="Self.FK_Examination_Klinik">
+            <End Role="Klinik" EntitySet="Kliniks" />
+            <End Role="Examination" EntitySet="Examinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Examination_Patient" Association="Self.FK_Examination_Patient">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Examination" EntitySet="Examinations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KlinikDbModelStoreContainer" CdmEntityContainer="KlinikDbEntities">
+          <EntitySetMapping Name="Bundeslands">
+            <EntityTypeMapping TypeName="KlinikDbModel.Bundesland">
+              <MappingFragment StoreEntitySet="Bundesland">
+                <ScalarProperty Name="B_Id" ColumnName="B_Id" />
+                <ScalarProperty Name="B_Name" ColumnName="B_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="KlinikDbModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+                <ScalarProperty Name="Emp_Lastname" ColumnName="Emp_Lastname" />
+                <ScalarProperty Name="Emp_Firstname" ColumnName="Emp_Firstname" />
+                <ScalarProperty Name="Emp_Birthday" ColumnName="Emp_Birthday" />
+                <ScalarProperty Name="Emp_Address" ColumnName="Emp_Address" />
+                <ScalarProperty Name="Emp_Plz" ColumnName="Emp_Plz" />
+                <ScalarProperty Name="Emp_Salary" ColumnName="Emp_Salary" />
+                <ScalarProperty Name="Emp_Bundesland" ColumnName="Emp_Bundesland" />
+                <ScalarProperty Name="Emp_Klinik" ColumnName="Emp_Klinik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Examinations">
+            <EntityTypeMapping TypeName="KlinikDbModel.Examination">
+              <MappingFragment StoreEntitySet="Examination">
+                <ScalarProperty Name="Ex_Id" ColumnName="Ex_Id" />
+                <ScalarProperty Name="Ex_Exam" ColumnName="Ex_Exam" />
+                <ScalarProperty Name="Ex_Date" ColumnName="Ex_Date" />
+                <ScalarProperty Name="Ex_Patient" ColumnName="Ex_Patient" />
+                <ScalarProperty Name="Ex_Employee" ColumnName="Ex_Employee" />
+                <ScalarProperty Name="Ex_Klinik" ColumnName="Ex_Klinik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Examtypes">
+            <EntityTypeMapping TypeName="KlinikDbModel.Examtype">
+              <MappingFragment StoreEntitySet="Examtype">
+                <ScalarProperty Name="Exty_Id" ColumnName="Exty_Id" />
+                <ScalarProperty Name="Exty_Name" ColumnName="Exty_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kliniks">
+            <EntityTypeMapping TypeName="KlinikDbModel.Klinik">
+              <MappingFragment StoreEntitySet="Klinik">
+                <ScalarProperty Name="K_Id" ColumnName="K_Id" />
+                <ScalarProperty Name="K_Address" ColumnName="K_Address" />
+                <ScalarProperty Name="K_Plz" ColumnName="K_Plz" />
+                <ScalarProperty Name="K_Ort" ColumnName="K_Ort" />
+                <ScalarProperty Name="K_Bundesland" ColumnName="K_Bundesland" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="KlinikDbModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="Pat_Id" ColumnName="Pat_Id" />
+                <ScalarProperty Name="P_Lastname" ColumnName="P_Lastname" />
+                <ScalarProperty Name="P_Firstname" ColumnName="P_Firstname" />
+                <ScalarProperty Name="P_Birthday" ColumnName="P_Birthday" />
+                <ScalarProperty Name="P_Address" ColumnName="P_Address" />
+                <ScalarProperty Name="P_Plz" ColumnName="P_Plz" />
+                <ScalarProperty Name="P_Bundesland" ColumnName="P_Bundesland" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

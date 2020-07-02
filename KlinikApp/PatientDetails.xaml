@@ -1,0 +1,41 @@
+﻿<Window x:Class="KlinikApp.PatientDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:model="clr-namespace:KlinikApp.ViewModel"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Title="Patient Details" Height="450" Width="500">
+    <Window.Resources>
+        <!--Datacontext im code gesetzt auf vmpatientedit-->
+        <ObjectDataProvider x:Key="vm" ObjectType="{x:Type model:VMPatientEdit}" />
+    </Window.Resources>
+    <StackPanel Margin="6">
+        <TextBlock Text="{Binding  Path=HeaderText}" FontSize="25" Foreground="Chocolate" HorizontalAlignment="Center"/>
+        <TextBlock Text="First Name"/>
+        <TextBox x:Name="TbFirstname" Text="{Binding Path=P.P_Firstname}"/>
+        <TextBlock Text="Last Name" />
+        <TextBox x:Name="TbLastname" Text="{Binding Path=P.P_Lastname}"/>
+        <TextBlock Text="Examinations" />
+        <TextBlock Text="{Binding Path=P.Examinations.Count}"/>
+        <TextBlock Text="Birthday"/>
+        <DatePicker x:Name="DpBirthday" SelectedDate="{Binding Path=P.P_Birthday}"/>
+        <TextBlock Text="Address" />
+        <TextBox x:Name="TbAddress" Text="{Binding Path=P.P_Address}"/>
+        <TextBlock Text="Bundesland"/>
+        <ComboBox x:Name="CbBundesland"
+                  SelectedValue="{Binding Path=P.P_Bundesland}"
+                  ItemsSource="{Binding Path=AllBundeslands}"
+                  DisplayMemberPath="B_Name"
+                  SelectedValuePath="B_Id"/>
+        <TextBlock Text="Postal Code" />
+        <TextBox x:Name="TbPlz" Text="{Binding Path=P.P_Plz}"/>
+
+        
+        
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="Save" IsDefault="True"  Content="Save"  Margin="4" Click="Save_Click"/>
+            <Button x:Name="Cancel" IsCancel="True"  Margin="4" Content="Cancel"/>
+        </StackPanel>
+        <TextBlock x:Name="Error" Text="" Foreground="Red"/>
+    </StackPanel>
+</Window>
